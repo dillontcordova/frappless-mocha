@@ -34,8 +34,8 @@
   },
   "homepage": "https://github.com/dillontcordova/frappless-mocha#readme",
   "dependencies": {
-    "mocha": "^3.5.0",
-    "mock-aws-sinon": "^1.0.6",
-    "nock": "^9.0.14"
+    "mocha": "3.5.0",
+    "mock-aws-sinon": "1.0.6",
+    "nock": "9.0.14"
   }
 }
