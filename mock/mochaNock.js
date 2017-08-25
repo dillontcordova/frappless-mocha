@@ -3,7 +3,7 @@
  */
 
 const NOCK      = require('nock');
-const CONFIG    = require('../../config/mochaConfig');
+const CONFIG    = require('../config/mochaConfig');
 
 class MochaNock {
 
