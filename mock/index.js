@@ -42,5 +42,5 @@ module.exports = {
     Aws: MOCK_AWS,
     setEtoE: setEtoE,
     getConfig: () => CONFIG,
-    promiserOrganizer: promiseOrganizer
+    promiseOrganizer: promiseOrganizer
 };

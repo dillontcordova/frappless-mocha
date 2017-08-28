@@ -15,8 +15,12 @@ class MochaAws {
     mock(...awsParams ){
 
         if( this.isMock ){
-            MOCK_AWS( ...awsParams );
-            this.mockAwsList.push( [awsParams[0], awsParams[1]] );
+            if( awsParams.length < 3 ){
+                throw new Error('improper use of AWS Mock');
+            } else {
+                MOCK_AWS( ...awsParams );
+                this.mockAwsList.push( [awsParams[0], awsParams[1]] );
+            }
         }
     }
 
