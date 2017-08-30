@@ -41,6 +41,6 @@
     "aws-sdk": "^2.104.0"
   },
   "devDependencies": {
-    "supertest": "3.0.0"
+    "supertest": "^3.0.0"
   }
 }
