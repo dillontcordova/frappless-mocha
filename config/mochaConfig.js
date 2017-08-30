@@ -13,10 +13,12 @@ class MochaConfig {
 
     static done( _event ){
         if( !this.getIsMock() ){
-            if( _event ){
-                MochaConfig.prototype.resolve( _event );
-            } else {
-                MochaConfig.prototype.reject( ' ' );
+            if( MochaConfig.prototype.resolve && MochaConfig.prototype.reject ){
+                if( _event ){
+                    MochaConfig.prototype.resolve( _event );
+                } else {
+                    MochaConfig.prototype.reject( ' ' );
+                }
             }
         }
     }

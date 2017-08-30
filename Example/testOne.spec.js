@@ -51,16 +51,14 @@ function testOne() {
 
         context( 'context', ( ) => {
             it( 'should One', ( _done ) => {
-                setTimeout( ( ) => {
-                    REQUEST( url )
-                        .get('/')
-                        .expect(200)
-                        .end( ( err, res ) => {
-                            if (err) throw err;
-                            _done( );
-                        })
-                    ;
-                }, 1500);
+                REQUEST( url )
+                    .get('/')
+                    .expect(200)
+                    .end( ( err, res ) => {
+                        if (err) throw err;
+                        _done( );
+                    })
+                ;
             });
 
             it.EtoE( 'should Two', ( _done ) => {
@@ -75,16 +73,14 @@ function testOne() {
             });
 
             it( 'should Three', ( _done ) => {
-                setTimeout( ( ) => {
-                    REQUEST( url )
-                        .get('/')
-                        .expect(200)
-                        .end( ( err, res ) => {
-                            if (err) throw err;
-                            _done( );
-                        })
-                    ;
-                }, 0);
+                REQUEST( url )
+                    .get('/')
+                    .expect(200)
+                    .end( ( err, res ) => {
+                        if (err) throw err;
+                        _done( );
+                    })
+                ;
             });
         })
     })
