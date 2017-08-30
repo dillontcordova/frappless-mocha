@@ -34,18 +34,19 @@
   },
   "homepage": "https://github.com/dillontcordova/frappless-mocha#readme",
   "peerDependencies": {
-    "mocha": "3.5.0",
-    "nock": "9.0.14",
     "mock-aws-sinon": "^1.0.6",
-    "sinon": "2.3.5",
-    "aws-sdk": "^2.104.0"
+    "aws-sdk": "^2.104.0",
+    "mocha": "^3.5.0",
+    "chai": "^4.1.1",
+    "nock": "9.0.14",
+    "sinon": "2.3.5"
   },
   "dependencies": {
+    "aws-sdk": "^2.104.0",
     "mocha": "3.5.0",
-    "nock": "9.0.14",
     "mock-aws-sinon": "^1.0.6",
-    "sinon": "2.3.5",
-    "aws-sdk": "^2.104.0"
+    "nock": "9.0.14",
+    "sinon": "2.3.5"
   },
   "devDependencies": {
     "supertest": "^3.0.0"
