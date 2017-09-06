@@ -47,7 +47,7 @@ class MochaConfig {
         if( MochaConfig.prototype.isMock !== undefined ){
             isMock = MochaConfig.prototype.isMock;
         } else {
-            console.warn('setEtoE() was not called before test require(s). Possible wrong functionality.');
+            console.warn('setEtoE() was not called in time. Possible unexpected functionality.');
             isMock = true;
         }
 
