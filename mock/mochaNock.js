@@ -7,9 +7,7 @@ const CONFIG    = require('../config/mochaConfig');
 
 class MochaNock {
 
-    constructor(){
-        this.isMock = CONFIG.getIsMock();
-    }
+    constructor(){}
 
     restore() {
         NOCK.cleanAll();
@@ -20,7 +18,7 @@ class MochaNock {
             post: ( __link ) => {
                 return {
                     reply: ( ___cb ) => {
-                        if( this.isMock ){
+                        if( CONFIG.getIsMock() ){
                             NOCK( _url )
                                 .post   ( __link )
                                 .reply  ( ___cb )
@@ -29,7 +27,7 @@ class MochaNock {
 
                     },
                     replyWithError: ( ___errorMsg ) => {
-                        if( this.isMock ){
+                        if( CONFIG.getIsMock() ){
                             NOCK( _url )
                                 .post           ( __link )
                                 .replyWithError ( ___errorMsg )
@@ -37,7 +35,7 @@ class MochaNock {
                         }
                     },
                     replyWithFile: ( ___status, ___filePath ) => {
-                        if( this.isMock ){
+                        if( CONFIG.getIsMock() ){
                             NOCK( _url )
                                 .post           ( __link )
                                 .replyWithFile  ( ___status, ___filePath )
