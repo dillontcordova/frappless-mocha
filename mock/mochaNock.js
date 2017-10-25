@@ -24,7 +24,6 @@ class MochaNock {
                                 .reply  ( ___cb )
                             ;
                         }
-
                     },
                     replyWithError: ( ___errorMsg ) => {
                         if( CONFIG.getIsMock() ){
@@ -38,6 +37,34 @@ class MochaNock {
                         if( CONFIG.getIsMock() ){
                             NOCK( _url )
                                 .post           ( __link )
+                                .replyWithFile  ( ___status, ___filePath )
+                            ;
+                        }
+                    },
+                }
+            },
+            get: ( __link ) => {
+                return {
+                    reply: ( ___cb ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .get    ( __link )
+                                .reply  ( ___cb )
+                            ;
+                        }
+                    },
+                    replyWithError: ( ___errorMsg ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .get            ( __link )
+                                .replyWithError ( ___errorMsg )
+                            ;
+                        }
+                    },
+                    replyWithFile: ( ___status, ___filePath ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .get            ( __link )
                                 .replyWithFile  ( ___status, ___filePath )
                             ;
                         }
