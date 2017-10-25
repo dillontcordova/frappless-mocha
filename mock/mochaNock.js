@@ -70,7 +70,35 @@ class MochaNock {
                         }
                     },
                 }
-            }
+            },
+            put: ( __link ) => {
+                return {
+                    reply: ( ___cb ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .put    ( __link )
+                                .reply  ( ___cb )
+                            ;
+                        }
+                    },
+                    replyWithError: ( ___errorMsg ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .put            ( __link )
+                                .replyWithError ( ___errorMsg )
+                            ;
+                        }
+                    },
+                    replyWithFile: ( ___status, ___filePath ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .put            ( __link )
+                                .replyWithFile  ( ___status, ___filePath )
+                            ;
+                        }
+                    },
+                }
+            },
         };
     }
 }
