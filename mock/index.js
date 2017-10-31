@@ -2,45 +2,40 @@
  * Created by dcordova on 8/16/17.
  */
 
-const SELF      = global || window;
-const MOCHA     = require('mocha');
-const MOCK_AWS  = require('../mock/mochaAws');
+const GLOBAL    = global || window;
+const MAWS      = require('../mock/mochaAws');
 const NOCK      = require('../mock/mochaNock');
 const CONFIG    = require('../config/mochaConfig');
+const EXPECT    = require('chai').expect;
 
-function setEtoE( _isEtoE ) {
-    CONFIG.setIsMock( !_isEtoE );
 
-    SELF['mochaTest'] = SELF.it;
+(function constructor( ){
 
-    if( _isEtoE ){
-        SELF.it = function(){};
+    const env_Var    = ( process.env.IS_MOCKED - 0 );
+    const isMocked   = ( env_Var === env_Var ) && env_Var;
+    CONFIG.setIsMock( !isMocked );
+    MAWS.init();
+
+    GLOBAL['expect'] = EXPECT;
+    GLOBAL['mochaTest'] = GLOBAL.it;
+
+    if( isMocked ){
+        GLOBAL.it = function(){};
     }
-    SELF.it.EtoE = SELF.mochaTest;
+    GLOBAL.it.EtoE = GLOBAL.mochaTest;
 
-    delete SELF.mochaTest;
-}
+    delete GLOBAL.mochaTest;
+})();
 
-function promiseOrganizer( ...funcList ){
-    (function asyncTestRun( _index ){
-        new Promise( (_resolve, _reject) => {
-            CONFIG.start( _resolve, _reject );
-            funcList[_index]();
-        }).then(function ( _event ){
-            CONFIG.setEvent(_event);
-            if( _index < funcList.length-1 ){
-                asyncTestRun( ++_index );
-            }
-        }).catch(function( err ){
-            throw err;
-        });
-    })(0);
-}
 
 module.exports = {
-    Nock: NOCK,
-    Aws: MOCK_AWS,
-    setEtoE: setEtoE,
-    getConfig: () => CONFIG,
-    promiseOrganizer: promiseOrganizer
+    clean: function(){
+        NOCK.clean();
+        MAWS.clean();
+    },
+    aws: MAWS.mock,
+    expect: EXPECT,
+    nock: NOCK.nock,
+    setPayload: CONFIG.setPayload,
+    getPayload: CONFIG.getPayload
 };

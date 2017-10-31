@@ -5,7 +5,7 @@
 const FRAPPLESS = require('../mock/index');
 // const NOCK      = new FRAPPLESS.Nock();
 const NOCK      = require('nock');
-const AWS       = new FRAPPLESS.Aws();
+const AWS       = new FRAPPLESS.aws();
 const REQUEST   = require('supertest');
 const CONFIG    = FRAPPLESS.getConfig();
 
@@ -18,7 +18,7 @@ function testTwo() {
         beforeEach( ( ) => {
             url = 'http://www.poasdp.com';
 
-            event = CONFIG.getEvent() || {
+            event = CONFIG.getPayload() || {
                 nothing: 'zilch'
             };
 
