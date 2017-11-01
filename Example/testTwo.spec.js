@@ -1,93 +1,142 @@
 /**
- * Created by dillo_000 on 8/26/2017.
+ * Created by dcordova on 8/30/17.
  */
 
-const FRAPPLESS = require('../index');
-// const NOCK      = new FRAPPLESS.Nock();
-const NOCK      = require('nock');
-const AWS       = new FRAPPLESS.aws();
-const REQUEST   = require('supertest');
-const CONFIG    = FRAPPLESS.getConfig();
+const FRAPPLESS = require('../');
 
-function testTwo() {
-    describe('describe', ( ) => {
+describe('Quarantine/', () => {
 
-        let event;
-        let url;
+    let url;
+    let event;
+    let jobId;
+    let response;
+    let download;
 
-        beforeEach( ( ) => {
-            url = 'http://www.poasdp.com';
+    beforeEach(() => {
+        response    = null;
+        event       = FRAPPLESS.getPayload() || {};
+        url         = 'http://0.0.0.0:8080/v1/job';
+        jobId       = '2528c2b3-108c-4c7f-af94-4cc1abe58171';
+        download    = {
+            Bucket: "cn-dmz-untrusted",
+            Key: "package-a/santas-little-helper.jpg"
+        };
 
-            event = CONFIG.getPayload() || {
-                nothing: 'zilch'
-            };
 
-            AWS.mock( 'S3', 'getObject', (err, response) => {
-                return {
-                    useless: 'string'
-                };
-            });
+        FRAPPLESS.nock( url )
+            .post( '/light' )
+            .reply(function () {
+                return [200, response];
+            })
+        ;
 
-            NOCK( url )
-                .get( '/' )
-                .delay({
-                    head: 100, // header will be delayed for 2 seconds, i.e. the whole response will be delayed for 2 seconds.
-                    body: 200  // body will be delayed for another 3 seconds after header is sent out.
-                }).reply(( _uri, _requestBody ) => {
-                    return [
-                        200, //status code
-                        'THIS IS THE REPLY BODY',
-                        {'header': 'value'} //optional headers
-                    ]
+        FRAPPLESS.nock( url )
+            .post( '/heavy' )
+            .reply(function () {
+                return [200, response];
+            })
+        ;
+
+        FRAPPLESS.nock(url)
+            .get(`/${jobId}`)
+            .reply(function () {
+                return [200, response];
+            })
+        ;
+
+        FRAPPLESS.nock(url)
+            .put(`/${jobId}`)
+            .reply(function () {
+                return [200, response];
+            })
+        ;
+    });
+
+    afterEach(() => {
+        FRAPPLESS.clean();
+    });
+
+    context('v1/job', () => {
+
+        it('should POST to /light and receive back an id', ( _done ) => {
+            url += '/light';
+
+            FRAPPLESS.request( url )
+                .post('')
+                .send({})
+                .end( ( err, res ) => {
+                    console.info( `Portal was successfully reached. here is the response: ${JSON.stringify(res)}` );
+                    FRAPPLESS.expect(err).to.equal(null);
+                    _done(err || null);
                 })
             ;
-
         });
 
-        afterEach( ( ) => {
-            AWS.restore ( );
-            // NOCK.restore( );
+        it('should GET to /:jobId and receive back job data and status', ( _done ) => {
+            url += `/${jobId}`;
+
+            FRAPPLESS.request( url )
+                .get('')
+                .end(( err, res ) => {
+                    console.info( `Portal was successfully reached. here is the response: ${JSON.stringify(res)}` );
+                    FRAPPLESS.expect(err).to.be.equal(null);
+                    FRAPPLESS.expect(res.body).to.not.be.equal(null);
+                    _done(err || null);
+                })
+            ;
         });
 
-        context( 'context', ( ) => {
-            it( 'should One', ( _done ) => {
-                setTimeout( ( ) => {
-                    REQUEST( url )
-                        .get('/')
-                        .expect(200)
-                        .end( ( err, res ) => {
-                            if (err) throw err;
-                            _done( );
+        it('should PUT to /:jobId and receive back an id', ( _done ) => {
+            url += `/${jobId}`;
+
+            let status  = 'IN PROGRESS';
+            let data = {
+                state: 'decrypt'
+            };
+
+            FRAPPLESS.request( url )
+                .put('')
+                .send({
+                    data:       data,
+                    jobId:      jobId,
+                    status:     status
+                })
+                .end(( err, res ) => {
+                    console.info( `Portal was successfully reached. here is the response: ${JSON.stringify(res)}` );
+                    FRAPPLESS.expect(err).to.be.equal(null);
+                    FRAPPLESS.expect(res.body).to.not.be.equal(null);
+                    _done(err || null);
+                })
+            ;
+        });
+
+        it.EtoE('should do an E2E', ( _done ) => {
+            let lightURL = url + '/light';
+            let jobIdURL = url + `/${jobId}`;
+            let status  = 'IN PROGRESS';
+            let data = {
+                state: 'decrypt'
+            };
+
+            FRAPPLESS.request( lightURL )
+                .put('')
+                .send({
+                    data:       data,
+                    jobId:      jobId,
+                    status:     status
+                })
+                .end(( err, res ) => {
+                    FRAPPLESS.request( jobIdURL )
+                        .get('')
+                        .end(( err, res ) => {
+                            console.info( `Portal was successfully reached. here is the response: ${JSON.stringify(res)}` );
+                            FRAPPLESS.expect(err).to.be.equal(null);
+                            FRAPPLESS.expect(res.body).to.not.be.equal(null);
+                            _done(err || null);
                         })
                     ;
-                }, 1500);
-            });
-
-            it.EtoE( 'should Two', ( _done ) => {
-                REQUEST( url )
-                    .get('/')
-                    .expect(200)
-                    .end( ( err, res ) => {
-                        if (err) throw err;
-                        _done( );
-                    })
-                ;
-            });
-
-            it( 'should Three', ( _done ) => {
-                setTimeout( ( ) => {
-                    REQUEST( url )
-                        .get('/')
-                        .expect(200)
-                        .end( ( err, res ) => {
-                            if (err) throw err;
-                            _done( );
-                        })
-                    ;
-                }, 0);
-            });
-        })
-    })
-}
-
-module.exports = testTwo;
+                })
+            ;
+        });
+    });
+});

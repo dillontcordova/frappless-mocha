@@ -39,7 +39,8 @@
     "mocha": "^3.5.0",
     "chai": "^4.1.1",
     "nock": "9.0.14",
-    "sinon": "2.3.5"
+    "sinon": "2.3.5",
+    "supertest": "^3.0.0"
   },
   "dependencies": {
     "aws-sdk": "^2.104.0",

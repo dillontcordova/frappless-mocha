@@ -2,11 +2,12 @@
  * Created by dcordova on 8/16/17.
  */
 
-const GLOBAL    = global || window;
-const MAWS      = require('./mock/mochaAws');
-const NOCK      = require('./mock/mochaNock');
-const CONFIG    = require('./config/mochaConfig');
-const EXPECT    = require('chai').expect;
+const GLOBAL        = global || window;
+const MAWS          = require('./mock/mochaAws');
+const NOCK          = require('./mock/mochaNock');
+const SUPER_TEST    = require('supertest');
+const CONFIG        = require('./config/mochaConfig');
+const EXPECT        = require('chai').expect;
 
 
 (function constructor( ){
@@ -41,7 +42,8 @@ module.exports = {
     aws: MAWS.mock,
     expect: EXPECT,
     nock: NOCK.nock,
+    request: SUPER_TEST,
+    setIsMock: CONFIG.setIsMock,
     setPayload: CONFIG.setPayload,
-    getPayload: CONFIG.getPayload,
-    setIsMock: CONFIG.setIsMock
+    getPayload: CONFIG.getPayload
 };
