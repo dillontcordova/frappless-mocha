@@ -14,9 +14,8 @@ const EXPECT    = require('chai').expect;
     const env_Var = process.env.IS_MOCKED;
     let isMocked = true;
     if( env_Var ){
-        isMocked = env_Var === 'false' ? false: !!env_Var;
-    } else {
-        isMocked = env_Var === 0 ? false: isMocked;
+        const lowerCase = env_Var.toLowerCase();
+        isMocked = lowerCase === 'false' || lowerCase === '0' ? false: !!env_Var;
     }
 
     CONFIG.setIsMock( isMocked );
