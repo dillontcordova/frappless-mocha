@@ -25,7 +25,7 @@ const EXPECT    = require('chai').expect;
     GLOBAL['expect'] = EXPECT;
     GLOBAL['mochaTest'] = GLOBAL.it;
 
-    if( isMocked ){
+    if( !isMocked ){
         GLOBAL.it = function(){};
     }
     GLOBAL.it.EtoE = GLOBAL.mochaTest;
