@@ -7,27 +7,27 @@ const CONFIG    = require('../config/mochaConfig');
 
 class MochaAws {
 
-    constructor(){
-        this.mockAwsList = [];
+    static init(){
+        MochaAws.prototype.mockAwsList = [];
     }
 
-    mock(...awsParams ){
+    static mock(...awsParams ){
 
         if( CONFIG.getIsMock() ){
             if( awsParams.length < 3 ){
                 throw new Error('improper use of AWS Mock');
             } else {
                 MOCK_AWS( ...awsParams );
-                this.mockAwsList.push( [awsParams[0], awsParams[1]] );
+                MochaAws.prototype.mockAwsList.push( [awsParams[0], awsParams[1]] );
             }
         }
     }
 
-    restore( _major, _minor ){
+    static clean(_major, _minor ){
 
         if( CONFIG.getIsMock() ){
             if ( !_major || !_minor ){
-                for( let mockedAws of this.mockAwsList ){
+                for( let mockedAws of MochaAws.prototype.mockAwsList ){
                     MOCK_AWS( mockedAws[0], mockedAws[1] ).restore();
                 }
             } else {

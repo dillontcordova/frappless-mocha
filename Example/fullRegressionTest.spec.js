@@ -11,7 +11,7 @@ const TEST_TWO      = require('./testTwo.spec');
 (function asd() {
     let config = FRAPPLESS.getConfig();
 
-    config.setEvent({});
+    config.setPayload({});
     TEST_ONE();
     TEST_TWO();
 })();

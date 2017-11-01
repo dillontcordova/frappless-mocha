@@ -7,13 +7,11 @@ const CONFIG    = require('../config/mochaConfig');
 
 class MochaNock {
 
-    constructor(){}
-
-    restore() {
+    static clean() {
         NOCK.cleanAll();
     }
 
-    mock( _url ){
+    static nock( _url ){
         return {
             post: ( __link ) => {
                 return {
@@ -93,6 +91,34 @@ class MochaNock {
                         if( CONFIG.getIsMock() ){
                             NOCK( _url )
                                 .put            ( __link )
+                                .replyWithFile  ( ___status, ___filePath )
+                            ;
+                        }
+                    },
+                }
+            },
+            'delete': ( __link ) => {
+                return {
+                    reply: ( ___cb ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .delete ( __link )
+                                .reply  ( ___cb )
+                            ;
+                        }
+                    },
+                    replyWithError: ( ___errorMsg ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .delete         ( __link )
+                                .replyWithError ( ___errorMsg )
+                            ;
+                        }
+                    },
+                    replyWithFile: ( ___status, ___filePath ) => {
+                        if( CONFIG.getIsMock() ){
+                            NOCK( _url )
+                                .delete         ( __link )
                                 .replyWithFile  ( ___status, ___filePath )
                             ;
                         }

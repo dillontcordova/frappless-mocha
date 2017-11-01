@@ -3,87 +3,64 @@
  */
 
 const FRAPPLESS = require('../mock/index');
-// const NOCK      = new FRAPPLESS.Nock();
-const AWS       = new FRAPPLESS.Aws();
 const REQUEST   = require('supertest');
-const CONFIG    = FRAPPLESS.getConfig();
-const NOCK      = require('nock');
 
-function testOne() {
-    describe('describe', ( ) => {
+const AWS       = require('aws-sdk');
+AWS.config.region   = 'us-west-2';
+const DOC_CLIENT    = new AWS.DynamoDB.DocumentClient();
 
-        let event;
-        let url;
+describe('describe', ( ) => {
 
-        beforeEach( ( ) => {
-            url = 'http://www.asdasdsss.com';
+    let url;
+    let payload;
+    let dataObj;
+    let errorObj;
 
-            event = CONFIG.getEvent() || {
-                nothing: 'zilch'
+    beforeEach( ( ) => {
+        dataObj = {};
+        errorObj = null;
+        url = 'http://www.example.com';
+        payload = FRAPPLESS.getPayload() || {
+            payload: 'test'
+        };
+
+        FRAPPLESS.aws( 'S3', 'getObject', (err, response) => {
+            return {
+                useless: 'string'
             };
+        });
 
-            AWS.mock( 'S3', 'getObject', (err, response) => {
-                return {
-                    useless: 'string'
-                };
-            });
+        FRAPPLESS.aws('DynamoDB', 'putItem', function (params, callback) {
+            callback(errorObj, dataObj)
+        });
 
-            NOCK( url )
-                .get( '/' )
-                .delay({
-                    head: 700, // header will be delayed for 2 seconds, i.e. the whole response will be delayed for 2 seconds.
-                    body: 1000  // body will be delayed for another 3 seconds after header is sent out.
-                }).reply(( _uri, _requestBody ) => {
-                    return [
-                        200, //status code
-                        'THIS IS THE REPLY BODY',
-                        {'header': 'value'} //optional headers
-                    ]
+        FRAPPLESS.nock( url )
+            .get( '/' )
+            .reply(( _uri, _requestBody ) => {
+                return [
+                    200, //status code
+                    'THIS IS THE REPLY BODY',
+                    {'header': 'value'} //optional headers
+                ]
+            })
+        ;
+    });
+
+    afterEach( ( ) => {
+        FRAPPLESS.clean();
+    });
+
+    context( 'context', ( ) => {
+
+        it.EtoE( 'should Three', ( _done ) => {
+
+            REQUEST( url )
+                .get('/')
+                .end( ( err, res ) => {
+                    if (err) throw err;
+                    _done( );
                 })
             ;
-
         });
-
-        afterEach( ( ) => {
-            AWS.restore ( );
-            // NOCK.restore( );
-        });
-
-        context( 'context', ( ) => {
-            it( 'should One', ( _done ) => {
-                REQUEST( url )
-                    .get('/')
-                    .expect(200)
-                    .end( ( err, res ) => {
-                        if (err) throw err;
-                        _done( );
-                    })
-                ;
-            });
-
-            it.EtoE( 'should Two', ( _done ) => {
-                REQUEST( url )
-                    .get('/')
-                    .expect(200)
-                    .end( ( err, res ) => {
-                        if (err) throw err;
-                        _done( );
-                    })
-                ;
-            });
-
-            it( 'should Three', ( _done ) => {
-                REQUEST( url )
-                    .get('/')
-                    .expect(200)
-                    .end( ( err, res ) => {
-                        if (err) throw err;
-                        _done( );
-                    })
-                ;
-            });
-        })
     })
-}
-
-module.exports = testOne;
+});

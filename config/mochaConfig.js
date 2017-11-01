@@ -4,36 +4,17 @@
 
 class MochaConfig {
 
-    static start( _resolve, _reject ){
-        if( !this.getIsMock() ){
-            MochaConfig.prototype.resolve = _resolve;
-            MochaConfig.prototype.reject = _reject;
-        }
-    }
+    static getPayload( ){
+        let payload = null;
 
-    static done( _event ){
-        if( !this.getIsMock() ){
-            if( MochaConfig.prototype.resolve && MochaConfig.prototype.reject ){
-                if( _event ){
-                    MochaConfig.prototype.resolve( _event );
-                } else {
-                    MochaConfig.prototype.reject( ' ' );
-                }
-            }
-        }
-    }
-
-    static getEvent( ){
-        let event = null;
-
-        if( !this.getIsMock() ){
-            event = MochaConfig.prototype.event || null;
+        if( !MochaConfig.getIsMock() ){
+            payload = MochaConfig.prototype.event || null;
         }
 
-        return event;
+        return payload;
     }
 
-    static setEvent( _event ){
+    static setPayload(_event ){
         MochaConfig.prototype.event = _event;
     }
 

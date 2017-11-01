@@ -10,7 +10,7 @@ const TEST_TWO  = require('./testTwo.spec');
 
 let config = FRAPPLESS.getConfig();
 
-config.setEvent({});
+config.setPayload({});
 TEST_ONE();
 TEST_TWO();
 // FRAPPLESS.promiseOrganizer( TEST_ONE);
