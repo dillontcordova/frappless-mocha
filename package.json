@@ -47,9 +47,7 @@
     "mocha": "3.5.0",
     "mock-aws-sinon": "^1.0.6",
     "nock": "9.0.14",
-    "sinon": "2.3.5"
-  },
-  "devDependencies": {
+    "sinon": "2.3.5",
     "supertest": "^3.0.0"
   }
 }
