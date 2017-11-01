@@ -2,19 +2,26 @@
  * Created by dillo_000 on 8/26/2017.
  */
 
-const FRAPPLESS     = require('../mock/index');
+const FRAPPLESS = require('../mock/index');
 const REQUEST   = require('supertest');
+
+const AWS       = require('aws-sdk');
+AWS.config.region   = 'us-west-2';
+const DOC_CLIENT    = new AWS.DynamoDB.DocumentClient();
 
 describe('describe', ( ) => {
 
-    let event;
     let url;
+    let payload;
+    let dataObj;
+    let errorObj;
 
     beforeEach( ( ) => {
-        url = 'http://www.asdasdsss.com';
-
-        event = FRAPPLESS.getPayload() || {
-            nothing: 'zilch'
+        dataObj = {};
+        errorObj = null;
+        url = 'http://www.example.com';
+        payload = FRAPPLESS.getPayload() || {
+            payload: 'test'
         };
 
         FRAPPLESS.aws( 'S3', 'getObject', (err, response) => {
@@ -23,8 +30,12 @@ describe('describe', ( ) => {
             };
         });
 
+        FRAPPLESS.aws('DynamoDB', 'putItem', function (params, callback) {
+            callback(errorObj, dataObj)
+        });
+
         FRAPPLESS.nock( url )
-            .delete( '/' )
+            .get( '/' )
             .reply(( _uri, _requestBody ) => {
                 return [
                     200, //status code
@@ -33,7 +44,6 @@ describe('describe', ( ) => {
                 ]
             })
         ;
-
     });
 
     afterEach( ( ) => {
@@ -42,20 +52,10 @@ describe('describe', ( ) => {
 
     context( 'context', ( ) => {
 
-        it.EtoE( 'should Two', ( _done ) => {
-            REQUEST( url )
-                .delete('')
-                .end( ( err, res ) => {
-                    if (err) throw err;
-                    _done( );
-                })
-            ;
-        });
+        it.EtoE( 'should Three', ( _done ) => {
 
-        it( 'should Three', ( _done ) => {
             REQUEST( url )
                 .get('/')
-                .expect(200)
                 .end( ( err, res ) => {
                     if (err) throw err;
                     _done( );

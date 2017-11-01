@@ -12,7 +12,7 @@ const EXPECT    = require('chai').expect;
 (function constructor( ){
 
     const env_Var    = ( process.env.IS_MOCKED - 0 );
-    const isMocked   = ( env_Var === env_Var ) && env_Var;
+    const isMocked   = !(( env_Var === env_Var ) && env_Var);
     CONFIG.setIsMock( !isMocked );
     MAWS.init();
 
