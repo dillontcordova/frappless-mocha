@@ -2,7 +2,7 @@
  * Created by dillo_000 on 8/26/2017.
  */
 
-const FRAPPLESS = require('../mock/index');
+const FRAPPLESS = require('../index');
 const REQUEST   = require('supertest');
 
 const AWS       = require('aws-sdk');

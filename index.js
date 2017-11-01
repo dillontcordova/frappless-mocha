@@ -3,17 +3,23 @@
  */
 
 const GLOBAL    = global || window;
-const MAWS      = require('../mock/mochaAws');
-const NOCK      = require('../mock/mochaNock');
-const CONFIG    = require('../config/mochaConfig');
+const MAWS      = require('./mock/mochaAws');
+const NOCK      = require('./mock/mochaNock');
+const CONFIG    = require('./config/mochaConfig');
 const EXPECT    = require('chai').expect;
 
 
 (function constructor( ){
 
-    const env_Var    = ( process.env.IS_MOCKED - 0 );
-    const isMocked   = !(( env_Var === env_Var ) && env_Var);
-    CONFIG.setIsMock( !isMocked );
+    const env_Var = process.env.IS_MOCKED;
+    let isMocked = true;
+    if( env_Var ){
+        isMocked = env_Var === 'false' ? false: !!env_Var;
+    } else {
+        isMocked = env_Var === 0 ? false: isMocked;
+    }
+
+    CONFIG.setIsMock( isMocked );
     MAWS.init();
 
     GLOBAL['expect'] = EXPECT;
@@ -37,5 +43,6 @@ module.exports = {
     expect: EXPECT,
     nock: NOCK.nock,
     setPayload: CONFIG.setPayload,
-    getPayload: CONFIG.getPayload
+    getPayload: CONFIG.getPayload,
+    setIsMock: CONFIG.setIsMock
 };

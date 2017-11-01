@@ -15,7 +15,7 @@ class MochaAws {
 
         if( CONFIG.getIsMock() ){
             if( awsParams.length < 3 ){
-                throw new Error('improper use of AWS Mock');
+                throw new Error('!Improper use of AWS Mock');
             } else {
                 MOCK_AWS( ...awsParams );
                 MochaAws.prototype.mockAwsList.push( [awsParams[0], awsParams[1]] );
