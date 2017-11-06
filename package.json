@@ -1,6 +1,6 @@
 {
   "name": "frappless-mocha",
-  "version": "3.0.0-0",
+  "version": "2.1.0",
   "description": "An addon to mocha, to run a e2e test while organizing the test promises across multiple test files",
   "main": "mock/index.js",
   "author": "Dillon Cordova",
