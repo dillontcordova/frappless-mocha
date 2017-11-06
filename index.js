@@ -3,9 +3,9 @@
  */
 
 const GLOBAL        = global || window;
-const MAWS          = require('./mock/mochaAws');
-const NOCK          = require('./mock/mochaNock');
-const SUPER_TEST    = require('supertest');
+const MAWS          = require('./lib/mochaAws');
+const NOCK          = require('./lib/mochaNock');
+const REQUEST       = require('./lib/requestMin');
 const CONFIG        = require('./config/mochaConfig');
 const EXPECT        = require('chai').expect;
 
@@ -42,8 +42,8 @@ module.exports = {
     aws: MAWS.mock,
     expect: EXPECT,
     nock: NOCK.nock,
-    request: SUPER_TEST,
+    request: REQUEST,
     setIsMock: CONFIG.setIsMock,
-    setPayload: CONFIG.setPayload,
-    getPayload: CONFIG.getPayload
+    setPayload: CONFIG.setPayload,  //might be useless now
+    getPayload: CONFIG.getPayload   //might be useless now
 };
