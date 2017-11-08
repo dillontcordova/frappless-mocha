@@ -31,6 +31,7 @@ const EXPECT        = require('chai').expect;
     GLOBAL.it.EtoE = GLOBAL.mochaTest;
 
     delete GLOBAL.mochaTest;
+    delete require.cache[require.resolve('frappless-mocha')];
 })();
 
 
