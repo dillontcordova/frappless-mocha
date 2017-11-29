@@ -36,6 +36,7 @@
   "peerDependencies": {
     "mock-aws-sinon": "^1.0.6",
     "aws-sdk": "^2.104.0",
+    "request": "2.83.0",
     "mocha": "^3.5.0",
     "chai": "^4.1.1",
     "nock": "9.0.14",
@@ -43,9 +44,10 @@
     "nyc": "^11.3.0"
   },
   "dependencies": {
-    "aws-sdk": "^2.104.0",
-    "mocha": "3.5.0",
     "mock-aws-sinon": "^1.0.6",
+    "aws-sdk": "^2.104.0",
+    "request": "2.83.0",
+    "mocha": "3.5.0",
     "nock": "9.0.14",
     "nyc": "^11.3.0",
     "sinon": "2.3.5"
