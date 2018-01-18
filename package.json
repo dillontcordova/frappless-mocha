@@ -35,6 +35,8 @@
   },
   "peerDependencies": {
     "mock-aws-sinon": "^1.0.6",
+    "directory-to-s3": "^1.0.0-rc4",
+    "mocha-simple-html-reporter": "^1.1.0",
     "aws-sdk": "^2.104.0",
     "request": "2.83.0",
     "mocha": "^3.5.0",
