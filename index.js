@@ -5,7 +5,7 @@
 const GLOBAL        = global || window;
 const MAWS          = require('./lib/mochaAws');
 const NOCK          = require('./lib/mochaNock');
-const REQUEST       = require('./lib/requestMin');
+const REQUEST       = require('./lib/request');
 const CONFIG        = require('./config/mochaConfig');
 const EXPECT        = require('chai').expect;
 
