@@ -1,6 +1,6 @@
 {
   "name": "frappless-mocha",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "An addon to mocha, to run a e2e test while organizing the test promises across multiple test files",
   "main": "mock/index.js",
   "author": "Dillon Cordova",
@@ -34,21 +34,13 @@
   "scripts": {
     "test": "IS_MOCKED=true nyc --reporter=html --reporter=text mocha ./Example/Test_Simple.spec.js --timeout=3000"
   },
-  "peerDependencies": {
-    "mock-aws-sinon": "^1.0.6",
-    "aws-sdk": "^2.104.0",
-    "mocha": "^3.5.0",
-    "chai": "^4.1.1",
-    "nock": "9.0.14",
-    "sinon": "2.3.5",
-    "nyc": "^11.3.0"
-  },
   "dependencies": {
-    "mock-aws-sinon": "^1.0.6",
     "aws-sdk": "^2.104.0",
-    "mocha": "3.5.0",
+    "chai": "^4.1.1",
+    "mocha": "^5.2.0",
+    "mock-aws-sinon": "^1.0.6",
     "nock": "9.0.14",
-    "nyc": "^11.3.0",
+    "nyc": "^11.9.0",
     "sinon": "2.3.5"
   }
 }
